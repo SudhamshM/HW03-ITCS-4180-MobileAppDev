@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements BacCalculatorFrag
     {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rootView, ViewDrinksFragment.newInstance(userDrinks), "view-drinks-fragment")
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .commit();
     }

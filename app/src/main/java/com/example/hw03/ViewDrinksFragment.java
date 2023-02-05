@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.hw03.databinding.FragmentViewDrinksBinding;
 
@@ -102,14 +103,15 @@ public class ViewDrinksFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                if (currentIndex == mUserDrinks.size() - 1)
-                {
-                    currentIndex = 0;
-                }
-                else
-                {
-                    currentIndex += 1;
-                }
+//                if (currentIndex == mUserDrinks.size() - 1)
+//                {
+//                    currentIndex = 0;
+//                }
+//                else
+//                {
+//                    currentIndex += 1;
+//                }
+                currentIndex = currentIndex == mUserDrinks.size() - 1 ? currentIndex = 0 : currentIndex + 1;
                 updateDrinksInfo();
             }
         });
@@ -119,6 +121,14 @@ public class ViewDrinksFragment extends Fragment
             @Override
             public void onClick(View view)
             {
+                if (currentIndex == 0)
+                {
+                    currentIndex = mUserDrinks.size() - 1;
+                }
+                else
+                {
+                    currentIndex = currentIndex - 1;
+                }
                 updateDrinksInfo();
             }
         });
@@ -128,7 +138,24 @@ public class ViewDrinksFragment extends Fragment
             @Override
             public void onClick(View view)
             {
+                if (mUserDrinks.size() == 1)
+                {
+                    Toast.makeText(getActivity(), "All drinks are removed.", Toast.LENGTH_SHORT).show();
+                    mUserDrinks.remove(currentIndex);
+                    mListener.closeDrinks();
+                    return;
+                }
                 mUserDrinks.remove(currentIndex);
+//                if (currentIndex == 0)
+//                {
+//                    currentIndex = mUserDrinks.size() - 1;
+//                }
+//                else
+//                {
+//                    currentIndex = currentIndex - 1;
+//                }
+
+                currentIndex = currentIndex == 0 ? mUserDrinks.size() - 1 : currentIndex - 1;
                 updateDrinksInfo();
             }
 
@@ -146,6 +173,10 @@ public class ViewDrinksFragment extends Fragment
 
     public void updateDrinksInfo()
     {
+        if (mUserDrinks.isEmpty())
+        {
+            return;
+        }
         Drink currentDrink = mUserDrinks.get(currentIndex);
         binder.textDrinksOutOf.setText("Drink " + (currentIndex + 1) + " out of " + mUserDrinks.size());
         binder.textDrinkOz.setText(currentDrink.getDrinkSize() + " oz");
