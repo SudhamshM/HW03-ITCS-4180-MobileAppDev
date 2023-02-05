@@ -1,27 +1,41 @@
 package com.example.hw03;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.hw03.databinding.FragmentViewDrinksBinding;
+
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ViewDrinksFragment extends Fragment
 {
+    FragmentViewDrinksBinding binder;
+    public int currentIndex = 0;
+    private static final String DRINKS_PARAM = "VIEW-DRINKS";
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public ArrayList<Drink> getmUserDrinks()
+    {
+        return mUserDrinks;
+    }
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public void setmUserDrinks(ArrayList<Drink> mUserDrinks)
+    {
+        this.mUserDrinks = mUserDrinks;
+    }
+
+    private ArrayList<Drink> mUserDrinks = new ArrayList<>();
+
 
     public ViewDrinksFragment()
     {
@@ -32,17 +46,15 @@ public class ViewDrinksFragment extends Fragment
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param userDrinks Parameter 1.
      * @return A new instance of fragment ViewDrinksFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ViewDrinksFragment newInstance(String param1, String param2)
+    public static ViewDrinksFragment newInstance(ArrayList<Drink> userDrinks)
     {
         ViewDrinksFragment fragment = new ViewDrinksFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(DRINKS_PARAM, userDrinks);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,8 +65,7 @@ public class ViewDrinksFragment extends Fragment
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
         {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mUserDrinks = (ArrayList<Drink>) getArguments().getSerializable(DRINKS_PARAM);
         }
     }
 
@@ -63,6 +74,56 @@ public class ViewDrinksFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_drinks, container, false);
+        binder = FragmentViewDrinksBinding.inflate(inflater, container, false);
+        return binder.getRoot();
+    }
+
+    public interface ViewDrinksListener
+    {
+        void closeDrinks();
+        void viewRightDrink();
+        void viewLeftDrink();
+        void deleteDrink(int index);
+    }
+
+    ViewDrinksListener mListener;
+
+    @Override
+    public void onAttach(@NonNull Context context)
+    {
+        super.onAttach(context);
+        mListener = (ViewDrinksListener) context;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        binder.drinkRightImg.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                mListener.viewRightDrink();
+            }
+        });
+
+        binder.drinkLeftImg.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                mListener.viewLeftDrink();
+            }
+        });
+
+        binder.drinkDeleteImg.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                mListener.deleteDrink(currentIndex);
+            }
+        });
     }
 }

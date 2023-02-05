@@ -5,6 +5,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements BacCalculatorFragment.BacHomeListener
         , SetProfileFragment.SetProfileListener,
         AddDrinkFragment.AddDrinkListener
@@ -45,9 +47,12 @@ public class MainActivity extends AppCompatActivity implements BacCalculatorFrag
     }
 
     @Override
-    public void viewDrinks()
+    public void goToViewDrinks(ArrayList<Drink> userDrinks)
     {
-
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.rootView, ViewDrinksFragment.newInstance(userDrinks), "view-drinks-fragment")
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

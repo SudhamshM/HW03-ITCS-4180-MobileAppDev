@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.example.hw03.databinding.FragmentBacCalculatorBinding;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -115,6 +117,20 @@ public class BacCalculatorFragment extends Fragment
                 mListener.goToDrinks();
             }
         });
+
+        binder.viewDrinksBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                if (mUserProfile.getUserDrinks().isEmpty())
+                {
+                    Toast.makeText(getActivity(), "Please add drinks to view them.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mListener.goToViewDrinks(mUserProfile.getUserDrinks());
+            }
+        });
     }
 
     public void updateUserInfo()
@@ -168,7 +184,7 @@ public class BacCalculatorFragment extends Fragment
     {
         void goSetWeight();
         void goToDrinks();
-        void viewDrinks();
+        void goToViewDrinks(ArrayList<Drink> userDrinks);
 
     }
 
