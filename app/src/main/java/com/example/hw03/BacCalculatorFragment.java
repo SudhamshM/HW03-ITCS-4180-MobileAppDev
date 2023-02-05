@@ -106,6 +106,15 @@ public class BacCalculatorFragment extends Fragment
                 binder.viewDrinksBtn.setEnabled(false);
             }
         });
+
+        binder.addDrinkBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                mListener.goToDrinks();
+            }
+        });
     }
 
     public void updateUserInfo()
