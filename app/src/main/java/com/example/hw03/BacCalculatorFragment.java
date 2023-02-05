@@ -69,7 +69,6 @@ public class BacCalculatorFragment extends Fragment
         if (getArguments() != null)
         {
             mUserProfile = (Profile) getArguments().getSerializable(ARG_PROFILE);
-
         }
     }
 

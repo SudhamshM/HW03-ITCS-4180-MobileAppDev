@@ -81,9 +81,6 @@ public class ViewDrinksFragment extends Fragment
     public interface ViewDrinksListener
     {
         void closeDrinks();
-        void viewRightDrink();
-        void viewLeftDrink();
-        void deleteDrink(int index);
     }
 
     ViewDrinksListener mListener;
@@ -99,12 +96,21 @@ public class ViewDrinksFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
+        updateDrinksInfo();
         binder.drinkRightImg.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                mListener.viewRightDrink();
+                if (currentIndex == mUserDrinks.size() - 1)
+                {
+                    currentIndex = 0;
+                }
+                else
+                {
+                    currentIndex += 1;
+                }
+                updateDrinksInfo();
             }
         });
 
@@ -113,7 +119,7 @@ public class ViewDrinksFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                mListener.viewLeftDrink();
+                updateDrinksInfo();
             }
         });
 
@@ -122,8 +128,28 @@ public class ViewDrinksFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                mListener.deleteDrink(currentIndex);
+                mUserDrinks.remove(currentIndex);
+                updateDrinksInfo();
+            }
+
+        });
+
+        binder.viewDrinksCloseBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                mListener.closeDrinks();
             }
         });
+    }
+
+    public void updateDrinksInfo()
+    {
+        Drink currentDrink = mUserDrinks.get(currentIndex);
+        binder.textDrinksOutOf.setText("Drink " + (currentIndex + 1) + " out of " + mUserDrinks.size());
+        binder.textDrinkOz.setText(currentDrink.getDrinkSize() + " oz");
+        binder.textAlcPct.setText(currentDrink.getAlcPercent() + "% Alcohol");
+        binder.textDrinkAdded.setText(currentDrink.getAddedOn().toString());
     }
 }

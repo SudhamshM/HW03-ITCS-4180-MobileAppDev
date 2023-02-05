@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements BacCalculatorFragment.BacHomeListener
         , SetProfileFragment.SetProfileListener,
-        AddDrinkFragment.AddDrinkListener
+        AddDrinkFragment.AddDrinkListener,
+        ViewDrinksFragment.ViewDrinksListener
 {
     Profile mainProfile = null;
 
@@ -92,4 +93,24 @@ public class MainActivity extends AppCompatActivity implements BacCalculatorFrag
     {
         getSupportFragmentManager().popBackStack();
     }
+
+    @Override
+    public void closeDrinks()
+    {
+        ViewDrinksFragment viewFragment = (ViewDrinksFragment) getSupportFragmentManager()
+                .findFragmentByTag("view-drinks-fragment");
+        if (viewFragment != null)
+        {
+            mainProfile.setUserDrinks(viewFragment.getmUserDrinks());
+            BacCalculatorFragment homeFragment = (BacCalculatorFragment) getSupportFragmentManager()
+                    .findFragmentByTag("home-fragment");
+            if (homeFragment != null)
+            {
+                homeFragment.setmUserProfile(mainProfile);
+
+            }
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
 }
