@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.hw03.databinding.FragmentBacCalculatorBinding;
 
@@ -102,6 +103,7 @@ public class BacCalculatorFragment extends Fragment
             {
                 mUserProfile = null;
                 updateUserInfo();
+                binder.viewDrinksBtn.setEnabled(false);
             }
         });
     }
@@ -115,11 +117,15 @@ public class BacCalculatorFragment extends Fragment
             binder.bacStatusText.setBackgroundResource(R.color.safe_color);
             binder.numDrinksCountText.setText(getString(R.string.num_drinks_label) + " 0");
             binder.weightValueText.setText(R.string.default_weight_label);
+            binder.viewDrinksBtn.setEnabled(false);
+            binder.addDrinkBtn.setEnabled(false);
         }
         else
         {
             binder.weightValueText.setText(mUserProfile.getWeight() + " lbs (" + mUserProfile.getGender() + ")");
             binder.numDrinksCountText.setText(getString(R.string.num_drinks_label) + " " + mUserProfile.getUserDrinks().size());
+            binder.viewDrinksBtn.setEnabled(true);
+            binder.addDrinkBtn.setEnabled(true);
             updateBACInfo();
         }
     }
@@ -129,12 +135,30 @@ public class BacCalculatorFragment extends Fragment
     {
         double userBAC = mUserProfile.calculateBAC();
         binder.bacLevelValueText.setText(String.format("%.3f", userBAC));
+        binder.bacStatusText.setText(R.string.safe_label);
+        binder.bacStatusText.setBackgroundResource(R.color.safe_color);
+        if (userBAC > 0.08 && userBAC <= 0.2)
+        {
+            binder.bacStatusText.setText(R.string.careful_label);
+            binder.bacStatusText.setBackgroundResource(R.color.careful_color);
+        }
+        else if (userBAC > 0.2)
+        {
+            binder.bacStatusText.setText(R.string.over_limit_label);
+            binder.bacStatusText.setBackgroundResource(R.color.over_limit_color);
+        }
+        if (userBAC >= 0.25)
+        {
+            Toast.makeText(getActivity(), "No more drinks for you!", Toast.LENGTH_SHORT).show();
+            binder.addDrinkBtn.setEnabled(false);
+        }
+
     }
 
     public interface BacHomeListener
     {
         void goSetWeight();
-        void addDrinks();
+        void goToDrinks();
         void viewDrinks();
 
     }
