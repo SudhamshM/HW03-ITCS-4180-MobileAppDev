@@ -1,7 +1,7 @@
 # HW03-ITCS-4180-MobileAppDev
 
 In this assignment you will get familiar with Android Fragments, and data passing 
-between activity and fragments. You will build a multiple activity Blood Alcohol Content 
+between activity and fragments. You will build a multiple fragment Blood Alcohol Content 
 (BAC) Level Calculator application.
 
 This app is composed of one activity (Main Activity) and multiple fragments namely the 
