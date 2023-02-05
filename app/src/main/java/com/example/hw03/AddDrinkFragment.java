@@ -55,6 +55,7 @@ public class AddDrinkFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle(R.string.add_drinks_screen_title);
 
         binder.alcoholPctSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {

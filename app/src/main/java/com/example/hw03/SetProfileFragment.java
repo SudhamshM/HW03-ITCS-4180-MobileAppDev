@@ -60,6 +60,7 @@ public class SetProfileFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle(R.string.set_weight_screen_title);
         binder.buttonCancel.setOnClickListener(new View.OnClickListener()
         {
             @Override

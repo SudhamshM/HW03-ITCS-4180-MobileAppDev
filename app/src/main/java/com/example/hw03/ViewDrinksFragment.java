@@ -98,6 +98,7 @@ public class ViewDrinksFragment extends Fragment
     {
         super.onViewCreated(view, savedInstanceState);
         updateDrinksInfo();
+        getActivity().setTitle(R.string.view_drinks_screen);
         binder.drinkRightImg.setOnClickListener(new View.OnClickListener()
         {
             @Override
